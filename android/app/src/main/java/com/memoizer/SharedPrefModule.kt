@@ -21,7 +21,7 @@ class SharedPrefModule constructor(context: ReactApplicationContext) : ReactCont
   }
 
   @ReactMethod
-  fun initialse(key: String, value: String) {
+  fun initialise(key: String, value: String) {
     val sharedPref = currentActivity!!.getPreferences(Context.MODE_PRIVATE)
     val editor = sharedPref.edit()
     editor.putString(key, value)

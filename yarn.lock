@@ -4902,6 +4902,10 @@ react-native-screens@^1.0.0-alpha.23:
   dependencies:
     debounce "^1.2.0"
 
+react-native-share-menu@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-share-menu/-/react-native-share-menu-2.2.2.tgz#7c332b83fc77739853c371517dd84199cb870e6a"
+
 react-native@0.61.4:
   version "0.61.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.61.4.tgz#9ec6e8a2aa8eac57143dcfa39115c7d9a139bc2c"

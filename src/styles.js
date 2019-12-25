@@ -1,3 +1,12 @@
+const fontColor = '#353839';
+const mainText = {
+  color: fontColor,
+  fontSize: 16,
+};
+const buttonText = {
+  color: fontColor,
+  fontSize: 20,
+}
 const container = {
   backgroundColor: '#f0f0f0',
   flex: 1,
@@ -25,10 +34,20 @@ const submitButton = {
   paddingVertical: 8,
   alignItems: 'center',
 };
-const submitButtonTitle = {};
+const submitButtonTitle = {
+  ...buttonText,
+};
 const h1Font = {
   fontSize: 20,
   color: '#000',
+};
+const textInput = {
+  paddingHorizontal: 10,
+  paddingTop: 8,
+  paddingBottom: 10,
+  borderWidth: 1,
+  borderRadius: 4,
+  borderColor: '#bfbfbf',
 };
 
 export default {
@@ -38,4 +57,5 @@ export default {
   submitButtonTitle,
   absoluteCover,
   h1Font,
-}
+  textInput,
+};

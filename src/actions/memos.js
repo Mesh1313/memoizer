@@ -101,8 +101,11 @@ const deleteMemo = async (dispatch, memoId) => {
   }
 };
 
+const updateMemo = () => {}
+
 export {
   getMemos,
   createMemo,
+  updateMemo,
   deleteMemo,
 };

@@ -13,13 +13,17 @@ import {
 } from 'react-native';
 import {
   useDispatch,
-  useMappedState
+  useMappedState,
 } from 'redux-react-hook';
+import ShareMenu from 'react-native-share-menu';
 import globalStyles from '../styles';
-import { Button } from '../components';
-import { MemoTile } from '../components/memoTile';
-import { AddMemoForm } from '../components/addMemoForm';
-import { PromptModal } from '../components/promptModal';
+import {
+  Button,
+  MemoTile,
+  AddMemoModal,
+  AddToModal,
+  PromptModal,
+} from '../components';
 import * as memosActions from '../actions/memos';
 import moment from 'moment';
 import * as utils from '../utils';
@@ -34,7 +38,7 @@ const getMemosByDate = () => {
     []
   );
   const { memos } = useMappedState(mapState);
-  let dateGroupsMap = {};
+  const dateGroupsMap = {};
 
   memos
   .forEach(memo => {
@@ -51,16 +55,21 @@ const getMemosByDate = () => {
   };
 };
 
-const onDeleteMemo = (dispatch, memoToDelete, onSuccessCallback) => {  
+const onDeleteMemo = ({ dispatch, memoToDelete, onSuccessCallback }) => {  
   memosActions.deleteMemo(dispatch, memoToDelete._id);
   onSuccessCallback();
 };
+
+const onAddToMemo = ({ dispatch, content, memo }) => {
+  console.log("ONADDTO ", content, memo);
+}
 
 const MemosScreen = props => {
   const { navigation } = props;
   const [ showAdd, setShowAdd ] = useState(false);
   const [ showDeleteModal, setShowDeleteModal ] = useState(false);
   const [ memoToDelete, setMemoToDelete ] = useState(null);
+  const [ showAddToModal, setShowAddToModal ] = useState(null);
   const dispatch = useDispatch();
   const mapState = useCallback(
     state => state.memos,
@@ -74,11 +83,14 @@ const MemosScreen = props => {
   const onDeleteMemoSuccess = () => {
     setShowDeleteModal(false);
     setMemoToDelete(null);
-  }
+  };
   const memosGroupDatesMap = getMemosByDate();
 
   useEffect(() => {
     memosActions.getMemos(dispatch);
+    ShareMenu.getSharedText((content) => {
+      setShowAddToModal({ content });
+    });
   }, []);
 
   useMemo(() => getMemosByDate, [memos]);
@@ -101,8 +113,8 @@ const MemosScreen = props => {
           {
             memosGroupDatesMap.groupKeys.map(groupKey => (
               <View
-              style={[globalStyles.box, { marginBottom: 10 }]}
-              key={`memos-date-group-${groupKey}`}>
+                style={[globalStyles.box, { marginBottom: 10 }]}
+                key={`memos-date-group-${groupKey}`}>
                 <Text style={styles.groupTitle}>
                   {groupKey}
                 </Text>
@@ -126,21 +138,20 @@ const MemosScreen = props => {
           </ScrollView>
           : <View>
             <ActivityIndicator
-            size='large'
-            color="#000"/>
+              size='large'
+              color="#000"/>
           </View>
       }
       </View>
       {
         showAdd
         && <View style={styles.modalContainer}>
-          <AddMemoForm
+          <AddMemoModal
             onAdd={memoData => {
               createMemo(dispatch, memoData);
               setShowAdd(false);
             }}
-            onCloseForm={() => setShowAdd(false)}
-          />
+            onClose={() => setShowAdd(false)}/>
         </View>
       }
       {
@@ -148,13 +159,21 @@ const MemosScreen = props => {
         && memoToDelete
         && <View style={styles.modalContainer}>
           <PromptModal
-          title={`Do you want to delete memo: ${memoToDelete._id}`}
-          onOkPress={() => onDeleteMemo(dispatch, memoToDelete, onDeleteMemoSuccess)}
-          onCancelPress={() => {
-            setShowDeleteModal(false);
-            setMemoToDelete(null);
-          }}
-          />
+            title={`Do you want to delete memo: ${memoToDelete._id}`}
+            onOkPress={() => onDeleteMemo({ dispatch, memoToDelete, onDeleteMemoSuccess })}
+            onCancelPress={() => {
+              setShowDeleteModal(false);
+              setMemoToDelete(null);
+            }}/>
+        </View>
+      }
+      {
+        showAddToModal !== null
+        && <View style={styles.modalContainer}>
+          <AddToModal
+            content={showAddToModal.content}
+            onClose={() => setShowAddToModal(null)}
+            onAddToMemo={(args) => onAddToMemo({ dispatch, ...args })}/>
         </View>
       }
     </View>
@@ -167,6 +186,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   groupTitle: {
+    ...globalStyles.mainText,
     marginBottom: 5,
   },
   modalContainer: {

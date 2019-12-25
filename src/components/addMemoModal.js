@@ -4,28 +4,22 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
 } from 'react-native';
-import { Button } from '../components';
+import { Button } from './button';
+import globalStyles from '../styles';
+import { ClosableBox } from './closableBox';
 
-const AddMemoForm = props => {
-  const { onAdd, onCloseForm } = props;
+export const AddMemoModal = props => {
+  const { onAdd, onClose } = props;
   const [ title, setTitle ] = useState('');
   const [ content, setContent ] = useState('');
 
   return (
-    <View style={styles.container}>
-      <View style={styles.closeHolder}>
-        <TouchableOpacity
-          onPress={onCloseForm}
-        >
-          <Text>Close</Text>
-        </TouchableOpacity>
-      </View>
+    <ClosableBox onClose={onClose}>
       <View style={styles.inputHolder}>
         <Text style={styles.label}>Title</Text>
         <TextInput
-          style={styles.textInput}
+          style={globalStyles.textInput}
           onChangeText={text => setTitle(text)}
           value={title}
         />
@@ -33,7 +27,7 @@ const AddMemoForm = props => {
       <View style={styles.inputHolder}>
         <Text style={styles.label}>Content</Text>
         <TextInput
-          style={styles.textInput}
+          style={globalStyles.textInput}
           multiline={true}
           onChangeText={text => setContent(text)}
           value={content}
@@ -48,7 +42,7 @@ const AddMemoForm = props => {
           });
         }}
       />
-    </View>
+    </ClosableBox>
   );
 }
 
@@ -61,6 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   label: {
+    ...globalStyles.mainText,
     marginBottom: 10,
   },
   inputHolder: {
@@ -70,14 +65,4 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginBottom: 10,
   },
-  textInput: {
-    paddingHorizontal: 10,
-    paddingTop: 8,
-    paddingBottom: 10,
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: '#bfbfbf',
-  },
 });
-
-export { AddMemoForm };

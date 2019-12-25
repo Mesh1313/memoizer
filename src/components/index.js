@@ -2,25 +2,21 @@ import React from 'react';
 import { Text, TouchableOpacity } from 'react-native'
 import globalStyles from '../styles';
 
-const Button = props => {
-  const {
-    title,
-    onPress,
-  } = props;
-  return (
-    <TouchableOpacity
-      style={globalStyles.submitButton}
-      onPress={onPress}
-    >
-      <Text
-        style={globalStyles.submitButtonTitle}
-      >
-        {title.toUpperCase()}
-      </Text>
-    </TouchableOpacity>
-  );
-};
+// components
+import { Button } from './button';
+import { BackButton } from './backButton';
+import { ClosableBox } from './closableBox';
+import { AddToModal } from './addToModal';
+import { AddMemoModal } from './addMemoModal';
+import { MemoTile } from './memoTile';
+import { PromptModal } from './promptModal';
 
 export {
   Button,
+  BackButton,
+  AddToModal,
+  AddMemoModal,
+  ClosableBox,
+  MemoTile,
+  PromptModal,
 };

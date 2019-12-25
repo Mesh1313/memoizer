@@ -5,9 +5,14 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import globalStyles from '../styles';
 
 const MemoTile = props => {
-  const { memo, onPress, onLongPressCallback } = props;
+  const {
+    memo,
+    onPress,
+    onLongPressCallback,
+  } = props;
 
   return (
     <TouchableOpacity
@@ -15,7 +20,7 @@ const MemoTile = props => {
       delayLongPress={200}
       onLongPress={() => onLongPressCallback(memo)}>
       <View style={styles.tile}>
-        <Text>
+        <Text style={globalStyles.mainText}>
           {memo.title}
         </Text>
       </View>

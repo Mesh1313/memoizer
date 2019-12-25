@@ -5,11 +5,11 @@ import SharedPref from '../SharedPref';
 
 const RootScreen = () => {
 
-  useEffect(() => {
-    SharedPref.initialse("test", "Hello");
-    SharedPref.getString("test")
-      .then((result) => ToastAndroid.show(result, ToastAndroid.LONG));
-  }, []);
+  // useEffect(() => {
+  //   SharedPref.initialise("test", "Hello");
+  //   SharedPref.getString("test")
+  //     .then((result) => ToastAndroid.show(result, ToastAndroid.LONG));
+  // }, []);
 
   return (
     <RootNavigator />

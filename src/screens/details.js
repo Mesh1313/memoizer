@@ -11,8 +11,10 @@ import {
 import {
   View,
   Text,
+  TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import { BackButton } from '../components';
 import globalStyles from '../styles';
 import moment from 'moment';
 import * as utils from '../utils';
@@ -30,6 +32,9 @@ const MemosDetailsScreen = props => {
   const memo = useMappedState(mapState);
 
   return <View style={globalStyles.container}>
+    <View style={styles.topHeading}>
+      <BackButton onBack={() => props.navigation.goBack()}/>
+    </View>
     <View style={styles.heading}>
       <Text style={styles.title}>{memo.title.toUpperCase()}</Text>
       <Text style={styles.date}>{moment(memo.createdAt).format(utils.memoDisplayDateFormat)}</Text>
@@ -58,6 +63,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
+  },
+  topHeading: {
+    marginBottom: 10,
+    alignItems: 'flex-start',
   },
   content: {
     ...globalStyles.box,
